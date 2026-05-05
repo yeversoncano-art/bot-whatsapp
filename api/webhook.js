@@ -1,7 +1,8 @@
-export async function POST(req) {
-  const body = await req.json();
+export default function handler(req, res) {
+  if (req.method === "POST") {
+    console.log("Mensaje recibido:", req.body);
+    return res.status(200).send("OK");
+  }
 
-  console.log("Mensaje recibido:", body);
-
-  return new Response("OK", { status: 200 });
+  return res.status(405).send("Method Not Allowed");
 }
