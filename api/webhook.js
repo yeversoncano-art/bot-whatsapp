@@ -5,7 +5,7 @@ export async function GET(req) {
   const token = searchParams.get("hub.verify_token");
   const challenge = searchParams.get("hub.challenge");
 
-  if (mode === "subscribe" && token === "mi_token_123") {
+if (mode === "subscribe" && token === process.env.VERIFY_TOKEN){
     return new Response(challenge, { status: 200 });
   }
 
@@ -25,11 +25,11 @@ export async function POST(req) {
       const from = message.from;
 
       await fetch(
-        "https://graph.facebook.com/v19.0/1027767230424897/messages",
+        `https://graph.facebook.com/v19.0/${process.env.PHONE_NUMBER_ID}/messages`,
         {
           method: "POST",
           headers: {
-            Authorization: "Bearer EAAXjs43b9icBRJZBrx2T8ZCZCTkmJ5ZCYGZAIm4ElhNx9NyflZB20B5IvaQrsBI5v9akaqQta28i9Sz2NYYsbNc4Rh3ce6vmAHZBAdMJM6ZACVMlA4I5e2qW6F15fW4or9FnnoPbEyeyj2KBocZAJhR9G3VxqSlLiUqGRmd3NROjsFgfrkPYlMipjUwk3wJDJagZDZD",
+          Authorization: `Bearer ${process.env.WHATSAPP_TOKEN}`,
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
