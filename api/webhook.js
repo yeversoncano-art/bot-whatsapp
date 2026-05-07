@@ -37,6 +37,7 @@ const { data: node, error } = await supabase
 
 console.log("NODO:", node);
       const buttons = (node?.buttons || []).slice(0, 3).map((btn, index) => ({
+        console.log("BUTTONS LIMPIOS:", buttons);
   type: "reply",
   reply: {
     id: btn.destino,
