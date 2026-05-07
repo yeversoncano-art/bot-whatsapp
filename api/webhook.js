@@ -40,7 +40,9 @@ console.log("NODO:", node);
   type: "reply",
   reply: {
     id: btn.destino,
-    title: btn.texto.substring(0, 20),
+    title: btn.texto
+  .replace(/[^\w\s]/gi, "")
+  .substring(0, 20),
   },
 }));
      const response = await fetch(
