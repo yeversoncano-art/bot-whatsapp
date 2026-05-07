@@ -60,13 +60,26 @@ console.log("NODO:", node);
 
 interactive: {
   type: "button",
-
   body: {
-    text: node?.message || "Hola 👋",
+    text: "Bienvenida al curso 😊",
   },
-
   action: {
-    buttons,
+    buttons: [
+      {
+        type: "reply",
+        reply: {
+          id: "contenido_velas",
+          title: "Contenido",
+        },
+      },
+      {
+        type: "reply",
+        reply: {
+          id: "precio_velas",
+          title: "Precio",
+        },
+      },
+    ],
   },
 },
     }),
