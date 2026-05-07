@@ -29,7 +29,13 @@ export async function POST(req) {
 
     if (message) {
       const from = message.from;
+const { data: node, error } = await supabase
+  .from("nodes")
+  .select("*")
+  .eq("node_key", "bienvenida_velas")
+  .single();
 
+console.log("NODO:", node);
      const response = await fetch(
   `https://graph.facebook.com/v19.0/${process.env.PHONE_NUMBER_ID}/messages`,
   {
@@ -43,7 +49,7 @@ export async function POST(req) {
       to: from,
       type: "text",
       text: {
-        body: "Hola 👋 soy tu asistente",
+       body: node?.message || "Hola 👋",
       },
     }),
   }
