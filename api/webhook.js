@@ -36,6 +36,7 @@ const { data: node, error } = await supabase
   .single();
 
 console.log("NODO:", node);
+      console.log("ERROR SUPABASE:", error);
       const buttons = (node?.buttons || []).slice(0, 3).map((btn, index) => ({
   type: "reply",
   reply: {
