@@ -65,18 +65,9 @@ interactive: {
     text: node?.message || "Hola 👋",
   },
 
-  action: {
-    buttons: (node?.buttons || []).slice(0, 3).map((btn) => ({
-      type: "reply",
-      reply: {
-        id: btn.destino.replace(/[^a-zA-Z0-9_-]/g, ""),
-        title: btn.texto
-          .replace(/[^\p{L}\p{N}\s]/gu, "")
-          .trim()
-          .substring(0, 20),
-      },
-    })),
-  },
+ action: {
+  buttons,
+},
 },
     }),
   }
