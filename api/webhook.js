@@ -54,10 +54,19 @@ console.log("NODO:", node);
     body: JSON.stringify({
       messaging_product: "whatsapp",
       to: from,
-      type: "text",
-      text: {
-       body: node?.message || "Hola 👋",
-      },
+      type: "interactive",
+
+interactive: {
+  type: "button",
+
+  body: {
+    text: node?.message || "Hola 👋",
+  },
+
+  action: {
+    buttons,
+  },
+},
     }),
   }
 );
