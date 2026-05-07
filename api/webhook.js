@@ -37,7 +37,6 @@ const { data: node, error } = await supabase
 
 console.log("NODO:", node);
       const buttons = (node?.buttons || []).slice(0, 3).map((btn, index) => ({
-        console.log("BUTTONS LIMPIOS:", buttons);
   type: "reply",
   reply: {
     id: btn.destino,
@@ -46,6 +45,7 @@ console.log("NODO:", node);
   .substring(0, 20),
   },
 }));
+      console.log("BUTTONS LIMPIOS:", buttons);
      const response = await fetch(
   `https://graph.facebook.com/v19.0/${process.env.PHONE_NUMBER_ID}/messages`,
   {
