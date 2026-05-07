@@ -36,6 +36,13 @@ const { data: node, error } = await supabase
   .single();
 
 console.log("NODO:", node);
+      const buttons = (node?.buttons || []).slice(0, 3).map((btn, index) => ({
+  type: "reply",
+  reply: {
+    id: btn.destino,
+    title: btn.texto.substring(0, 20),
+  },
+}));
      const response = await fetch(
   `https://graph.facebook.com/v19.0/${process.env.PHONE_NUMBER_ID}/messages`,
   {
