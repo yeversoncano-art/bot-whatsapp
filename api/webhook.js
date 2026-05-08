@@ -58,23 +58,35 @@ console.log("NODO:", node);
       Authorization: `Bearer ${process.env.WHATSAPP_TOKEN}`,
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({
-      messaging_product: "whatsapp",
-      to: from,
-      type: "interactive",
+   body: JSON.stringify(
+  buttons.length > 0
+    ? {
+        messaging_product: "whatsapp",
+        to: from,
+        type: "interactive",
 
-interactive: {
-  type: "button",
+        interactive: {
+          type: "button",
 
-  body: {
-    text: node?.message || "Hola 👋",
-  },
+          body: {
+            text: node?.message || "Hola 👋",
+          },
 
- action: {
-  buttons,
-},
-},
-    }),
+          action: {
+            buttons,
+          },
+        },
+      }
+    : {
+        messaging_product: "whatsapp",
+        to: from,
+        type: "text",
+
+        text: {
+          body: node?.message || "Hola 👋",
+        },
+      }
+),
   }
 );
 
