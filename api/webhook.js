@@ -1,9 +1,13 @@
 import { createClient } from "@supabase/supabase-js";
 import OpenAI from "openai";
+
 const supabase = createClient(
   process.env.SUPABASE_URL,
   process.env.SUPABASE_ANON_KEY
 );
+const openai = new OpenAI({
+  apiKey: process.env.OPENAI_API_KEY,
+});
 export async function GET(req) {
   const { searchParams } = new URL(req.url);
 
