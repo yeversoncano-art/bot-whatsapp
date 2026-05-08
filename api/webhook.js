@@ -34,10 +34,15 @@ export async function POST(req) {
   "bienvenida_velas";
       await supabase
   .from("clients")
-  .upsert({
-    phone: from,
-    last_node: selectedNode,
-  });
+  .upsert(
+    {
+      phone: from,
+      last_node: selectedNode,
+    },
+    {
+      onConflict: "phone",
+    }
+  );
 const { data: node, error } = await supabase
   .from("nodes")
   .select("*")
