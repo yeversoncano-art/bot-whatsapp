@@ -32,7 +32,7 @@ export async function POST(req) {
       const selectedNode =
   message?.interactive?.button_reply?.id ||
   "bienvenida_velas";
-      await supabase
+      const clientResult = await supabase
   .from("clients")
   .upsert(
     {
@@ -43,6 +43,9 @@ export async function POST(req) {
       onConflict: "phone",
     }
   );
+
+console.log("CLIENT RESULT:", clientResult);
+      
 const { data: node, error } = await supabase
   .from("nodes")
   .select("*")
