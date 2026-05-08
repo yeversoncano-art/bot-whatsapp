@@ -55,7 +55,13 @@ const { data: node, error } = await supabase
   .select("*")
   .eq("node_key", selectedNode)
   .single();
+      const { data: product } = await supabase
+  .from("products")
+  .select("*")
+  .eq("product_key", "velas_jabones_artesanales")
+  .single();
 
+console.log("PRODUCT:", product);
 console.log("NODO:", node);
       console.log("ERROR SUPABASE:", error);
       const completion = await openai.chat.completions.create({
@@ -63,8 +69,16 @@ console.log("NODO:", node);
   messages: [
     {
       role: "system",
-      content:
-        "Eres un vendedor amable especializado en cursos digitales.",
+      content: `
+Eres un vendedor amable especializado en cursos digitales.
+
+Producto: ${product?.name}
+Descripción: ${product?.description}
+Promesa: ${product?.promise}
+Precio: ${product?.price} ${product?.currency}
+
+Tu objetivo es ayudar a vender el producto de forma natural.
+`,
     },
     {
       role: "user",
