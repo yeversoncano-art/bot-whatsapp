@@ -29,10 +29,13 @@ export async function POST(req) {
 
     if (message) {
       const from = message.from;
+      const selectedNode =
+  message?.interactive?.button_reply?.id ||
+  "bienvenida_velas";
 const { data: node, error } = await supabase
   .from("nodes")
   .select("*")
-  .eq("id", "45f06a01-9a30-45b6-8b27-83436fe59f63")
+  .eq("node_key", selectedNode)
   .single();
 
 console.log("NODO:", node);
