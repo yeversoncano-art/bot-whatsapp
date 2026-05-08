@@ -32,7 +32,7 @@ export async function POST(req) {
 const { data: node, error } = await supabase
   .from("nodes")
   .select("*")
-  .eq("node_key", "bienvenida_velas")
+  .eq("id", "45f06a01-9a30-45b6-8b27-83436fe59f63")
   .single();
 
 console.log("NODO:", node);
