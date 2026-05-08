@@ -58,6 +58,25 @@ const { data: node, error } = await supabase
 
 console.log("NODO:", node);
       console.log("ERROR SUPABASE:", error);
+      const completion = await openai.chat.completions.create({
+  model: "gpt-4o-mini",
+  messages: [
+    {
+      role: "system",
+      content:
+        "Eres un vendedor amable especializado en cursos digitales.",
+    },
+    {
+      role: "user",
+      content:
+        message?.text?.body ||
+        selectedNode,
+    },
+  ],
+});
+
+const aiMessage =
+  completion.choices[0].message.content;
       const buttons = (node?.buttons || []).slice(0, 3).map((btn, index) => ({
   type: "reply",
   reply: {
@@ -87,7 +106,7 @@ console.log("NODO:", node);
           type: "button",
 
           body: {
-            text: node?.message || "Hola 👋",
+            text: aiMessage || node?.message || "Hola 👋",
           },
 
           action: {
