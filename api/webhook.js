@@ -49,6 +49,14 @@ export async function POST(req) {
   );
 
 console.log("CLIENT RESULT:", clientResult);
+      if (selectedNode === "precio_velas") {
+  await supabase
+    .from("clients")
+    .update({
+      status: "interesado",
+    })
+    .eq("phone", from);
+}
       
 const { data: node, error } = await supabase
   .from("nodes")
