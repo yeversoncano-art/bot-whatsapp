@@ -58,7 +58,23 @@ console.log("CLIENT RESULT:", clientResult);
     })
     .eq("phone", from);
 }
-      
+  const userText =
+  message?.text?.body?.toLowerCase() || "";
+
+if (
+  userText.includes("ya pague") ||
+  userText.includes("ya pagué") ||
+  userText.includes("compre") ||
+  userText.includes("compré")
+) {
+  await supabase
+    .from("clients")
+    .update({
+      status: "cliente",
+      checkout_at: new Date(),
+    })
+    .eq("phone", from);
+}    
 const { data: node, error } = await supabase
   .from("nodes")
   .select("*")
