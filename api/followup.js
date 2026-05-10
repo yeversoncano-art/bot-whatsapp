@@ -10,11 +10,19 @@ const openai = new OpenAI({
 });
 export default async function handler(req, res) {
   const { data: clients } = await supabase
-    .from("clients")
-    .select("*")
-    .eq("status", "interesado");
+  .from("clients")
+  .select("*")
+  .eq("status", "interesado")
+  .is("last_followup_sent", null);
+  .is("checkout_at", null)
 
   console.log("CLIENTES INTERESADOS:", clients);
+  await supabase
+  .from("clients")
+  .update({
+    last_followup_sent: new Date(),
+  })
+  .eq("phone", client.phone);
   for (const client of clients || []) {
  const completion = await openai.chat.completions.create({
   model: "gpt-4o-mini",
