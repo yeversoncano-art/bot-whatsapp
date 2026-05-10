@@ -130,15 +130,23 @@ persuasiva y ayudar a cerrar la venta.
 
 const aiMessage =
   completion.choices[0].message.content;
-      const buttons = (node?.buttons || []).slice(0, 3).map((btn, index) => ({
-  type: "reply",
-  reply: {
-    id: btn.destino,
-    title: btn.texto
-  .replace(/[^\w\s]/gi, "")
-  .substring(0, 20),
-  },
-}));
+      const { data: clientData } = await supabase
+  .from("clients")
+  .select("*")
+  .eq("phone", from)
+  .single();
+const buttons =
+  clientData?.status === "cliente"
+    ? []
+    : (node?.buttons || []).slice(0, 3).map((btn) => ({
+        type: "reply",
+        reply: {
+          id: btn.destino,
+          title: btn.texto
+            .replace(/[^\w\s]/gi, "")
+            .substring(0, 20),
+        },
+      }));
       console.log("BUTTONS LIMPIOS:", buttons);
      const response = await fetch(
   `https://graph.facebook.com/v19.0/${process.env.PHONE_NUMBER_ID}/messages`,
