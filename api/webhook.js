@@ -42,6 +42,7 @@ export async function POST(req) {
     {
       phone: from,
       last_node: selectedNode,
+      last_interaction: new Date(),
     },
     {
       onConflict: "phone",
