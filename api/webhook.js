@@ -33,6 +33,8 @@ export async function POST(req) {
 
     if (message) {
       const from = message.from;
+      const contactName =
+  body.entry?.[0]?.changes?.[0]?.value?.contacts?.[0]?.profile?.name || "";
   const userText =
   message?.text?.body?.toLowerCase() || "";
 
