@@ -36,8 +36,15 @@ export async function POST(req) {
   const userText =
   message?.text?.body?.toLowerCase() || "";
 
+const { data: existingClient } = await supabase
+  .from("clients")
+  .select("*")
+  .eq("phone", from)
+  .single();
+
 let selectedNode =
   message?.interactive?.button_reply?.id ||
+  existingClient?.last_node ||
   "bienvenida_velas";
 
 if (
