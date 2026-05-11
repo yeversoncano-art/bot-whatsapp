@@ -71,9 +71,6 @@ console.log("CLIENT RESULT:", clientResult);
     })
     .eq("phone", from);
 }
-  const userText =
-  message?.text?.body?.toLowerCase() || "";
-
 if (
   userText.includes("ya pague") ||
   userText.includes("ya pagué") ||
