@@ -33,9 +33,22 @@ export async function POST(req) {
 
     if (message) {
       const from = message.from;
-      const selectedNode =
-  message?.interactive?.button_reply?.id ||
-  "bienvenida_velas";
+     const userText =
+  message?.text?.body?.toLowerCase() || "";
+
+let selectedNode =
+  message?.interactive?.button_reply?.id;
+
+if (!selectedNode) {
+  if (
+    userText.includes("comprar") ||
+    userText.includes("pagar")
+  ) {
+    selectedNode = "cta_velas";
+  } else {
+    selectedNode = "bienvenida_velas";
+  }
+}
       const clientResult = await supabase
   .from("clients")
   .upsert(
