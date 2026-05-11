@@ -33,21 +33,20 @@ export async function POST(req) {
 
     if (message) {
       const from = message.from;
-     const userText =
+  const userText =
   message?.text?.body?.toLowerCase() || "";
 
 let selectedNode =
-  message?.interactive?.button_reply?.id;
+  message?.interactive?.button_reply?.id ||
+  "bienvenida_velas";
 
-if (!selectedNode) {
-  if (
-    userText.includes("comprar") ||
-    userText.includes("pagar")
-  ) {
-    selectedNode = "cta_velas";
-  } else {
-    selectedNode = "bienvenida_velas";
-  }
+if (
+  userText.includes("comprar") ||
+  userText.includes("pagar") ||
+  userText.includes("precio") ||
+  userText.includes("cuanto cuesta")
+) {
+  selectedNode = "cta_velas";
 }
       const clientResult = await supabase
   .from("clients")
