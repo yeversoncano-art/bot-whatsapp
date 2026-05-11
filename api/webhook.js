@@ -197,7 +197,7 @@ const buttons =
         type: "text",
 
         text: {
-          body: node?.message || "Hola 👋",
+          body: aiMessage || node?.message || "Hola 👋",
         },
       }
 ),
