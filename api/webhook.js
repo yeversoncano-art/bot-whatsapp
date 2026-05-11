@@ -62,6 +62,7 @@ if (
   .upsert(
     {
       phone: from,
+      name: contactName,
       last_node: selectedNode,
       last_interaction: new Date(),
     },
