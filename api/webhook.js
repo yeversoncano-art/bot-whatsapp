@@ -101,6 +101,9 @@ console.log("PRODUCT:", product);
   selectedNode = product?.start_node;
 }
 console.log("NODO:", node);
+      console.log("NODE MESSAGE:", node?.message);
+console.log("USE AI:", node?.use_ai);
+console.log("SELECTED NODE:", selectedNode);
       console.log("ERROR SUPABASE:", error);
       const completion = await openai.chat.completions.create({
   model: "gpt-4o-mini",
