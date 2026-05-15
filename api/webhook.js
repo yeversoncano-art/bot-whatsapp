@@ -46,17 +46,8 @@ const { data: existingClient } = await supabase
 
 let selectedNode =
   message?.interactive?.button_reply?.id ||
-  existingClient?.last_node ||
-  "bienvenida_velas";
+  existingClient?.last_node;
 
-if (
-  userText.includes("comprar") ||
-  userText.includes("pagar") ||
-  userText.includes("precio") ||
-  userText.includes("cuanto cuesta")
-) {
-  selectedNode = "cta_velas";
-}
       const clientResult = await supabase
   .from("clients")
   .upsert(
@@ -99,13 +90,16 @@ const { data: node, error } = await supabase
   .select("*")
   .eq("node_key", selectedNode)
   .single();
-      const { data: product } = await supabase
+     const { data: product } = await supabase
   .from("products")
   .select("*")
-  .eq("product_key", "velas_jabones_artesanales")
+  .eq("is_active", true)
   .single();
 
 console.log("PRODUCT:", product);
+      if (!selectedNode) {
+  selectedNode = product?.start_node;
+}
 console.log("NODO:", node);
       console.log("ERROR SUPABASE:", error);
       const completion = await openai.chat.completions.create({
