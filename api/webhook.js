@@ -47,30 +47,7 @@ const { data: existingClient } = await supabase
 let selectedNode =
   message?.interactive?.button_reply?.id || null;
 
-      const clientResult = await supabase
-  .from("clients")
-  .upsert(
-    {
-      phone: from,
-      name: contactName,
-      last_node: selectedNode,
-      last_interaction: new Date(),
-    },
-    {
-      onConflict: "phone",
-    }
-  );
-
-console.log("CLIENT RESULT:", clientResult);
-      if (selectedNode === "precio_velas") {
-  await supabase
-    .from("clients")
-    .update({
-      status: "interesado",
-    })
-    .eq("phone", from);
-}
-if (
+    if (
   userText.includes("ya pague") ||
   userText.includes("ya pagué") ||
   userText.includes("compre") ||
@@ -83,15 +60,16 @@ if (
       checkout_at: new Date(),
     })
     .eq("phone", from);
-}    
+}
+
 const { data: product } = await supabase
   .from("products")
   .select("*")
   .eq("is_active", true)
   .single();
 
-// PRIMER MENSAJE → bienvenida
-if (!selectedNode && !userText) {
+// PRIMERA INTERACCION
+if (!selectedNode && !existingClient?.last_node) {
   selectedNode = product?.start_node;
 }
 
@@ -114,20 +92,47 @@ if (userText && !message?.interactive?.button_reply?.id) {
     selectedNode = matchedNode.node_key;
   } else {
     selectedNode = "ia_libre";
-  }
 }
 
 // FALLBACK FINAL
 if (!selectedNode) {
-  selectedNode = product?.start_node;
+  selectedNode =
+    existingClient?.last_node ||
+    "ia_libre";
 }
-}
-}
+
 const { data: node, error } = await supabase
   .from("nodes")
   .select("*")
   .eq("node_key", selectedNode)
   .single();
+
+// GUARDAR CLIENTE
+const clientResult = await supabase
+  .from("clients")
+  .upsert(
+    {
+      phone: from,
+      name: contactName,
+      last_node: selectedNode,
+      last_interaction: new Date(),
+    },
+    {
+      onConflict: "phone",
+    }
+  );
+
+console.log("CLIENT RESULT:", clientResult);
+
+// MARCAR INTERESADO
+if (selectedNode === "precio_velas") {
+  await supabase
+    .from("clients")
+    .update({
+      status: "interesado",
+    })
+    .eq("phone", from);
+}
 
 console.log("PRODUCT:", product);
 console.log("NODO:", node);
