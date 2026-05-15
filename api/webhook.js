@@ -90,9 +90,12 @@ const { data: product } = await supabase
   .eq("is_active", true)
   .single();
 
-if (!selectedNode) {
+// PRIMER MENSAJE → bienvenida
+if (!selectedNode && !userText) {
   selectedNode = product?.start_node;
 }
+
+// MENSAJES ESCRITOS
 if (userText && !message?.interactive?.button_reply?.id) {
 
   const { data: allNodes } = await supabase
@@ -109,9 +112,15 @@ if (userText && !message?.interactive?.button_reply?.id) {
 
   if (matchedNode) {
     selectedNode = matchedNode.node_key;
+  } else {
+    selectedNode = "ia_libre";
   }
-  if (!matchedNode && !selectedNode) {
-  selectedNode = "ia_libre";
+}
+
+// FALLBACK FINAL
+if (!selectedNode) {
+  selectedNode = product?.start_node;
+}
 }
 }
 const { data: node, error } = await supabase
