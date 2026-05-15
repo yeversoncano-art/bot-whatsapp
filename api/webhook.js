@@ -92,6 +92,7 @@ if (userText && !message?.interactive?.button_reply?.id) {
     selectedNode = matchedNode.node_key;
   } else {
     selectedNode = "ia_libre";
+  }
 }
 
 // FALLBACK FINAL
