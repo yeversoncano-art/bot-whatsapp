@@ -140,9 +140,10 @@ persuasiva y ayudar a cerrar la venta.
     },
   ],
 });
-
-const aiMessage =
-  completion.choices[0].message.content;
+      
+const aiMessage = node?.use_ai
+  ? completion.choices[0].message.content
+  : node?.message;
       const { data: clientData } = await supabase
   .from("clients")
   .select("*")
