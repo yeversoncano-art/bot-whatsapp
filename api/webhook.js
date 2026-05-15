@@ -110,6 +110,9 @@ if (userText && !message?.interactive?.button_reply?.id) {
   if (matchedNode) {
     selectedNode = matchedNode.node_key;
   }
+  if (!matchedNode && !selectedNode) {
+  selectedNode = "ia_libre";
+}
 }
 const { data: node, error } = await supabase
   .from("nodes")
