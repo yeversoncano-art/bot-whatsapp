@@ -94,7 +94,24 @@ const { data: product } = await supabase
 if (!selectedNode) {
   selectedNode = product?.start_node;
 }
+if (userText && !message?.interactive?.button_reply?.id) {
 
+  const { data: allNodes } = await supabase
+    .from("nodes")
+    .select("*");
+
+  const matchedNode = allNodes?.find((n) =>
+    (n.keywords || []).some((kw) =>
+      userText.includes(
+        kw.toLowerCase()
+      )
+    )
+  );
+
+  if (matchedNode) {
+    selectedNode = matchedNode.node_key;
+  }
+}
 const { data: node, error } = await supabase
   .from("nodes")
   .select("*")
