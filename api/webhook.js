@@ -45,8 +45,7 @@ const { data: existingClient } = await supabase
   .single();
 
 let selectedNode =
-  message?.interactive?.button_reply?.id ||
-  existingClient?.last_node;
+  message?.interactive?.button_reply?.id || null;
 
       const clientResult = await supabase
   .from("clients")
