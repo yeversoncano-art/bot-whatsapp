@@ -90,9 +90,11 @@ if (userText && !message?.interactive?.button_reply?.id) {
 
   if (matchedNode) {
     selectedNode = matchedNode.node_key;
-  } else {
-    selectedNode = "ia_libre";
-  }
+  else {
+  selectedNode =
+    existingClient?.last_node ||
+    product?.start_node;
+}
 }
 
 // FALLBACK FINAL
