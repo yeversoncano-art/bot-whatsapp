@@ -85,26 +85,28 @@ if (
     })
     .eq("phone", from);
 }    
-const { data: node, error } = await supabase
-  .from("nodes")
-  .select("*")
-  .eq("node_key", selectedNode)
-  .single();
-     const { data: product } = await supabase
+const { data: product } = await supabase
   .from("products")
   .select("*")
   .eq("is_active", true)
   .single();
 
-console.log("PRODUCT:", product);
-      if (!selectedNode) {
+if (!selectedNode) {
   selectedNode = product?.start_node;
 }
+
+const { data: node, error } = await supabase
+  .from("nodes")
+  .select("*")
+  .eq("node_key", selectedNode)
+  .single();
+
+console.log("PRODUCT:", product);
 console.log("NODO:", node);
-      console.log("NODE MESSAGE:", node?.message);
+console.log("NODE MESSAGE:", node?.message);
 console.log("USE AI:", node?.use_ai);
 console.log("SELECTED NODE:", selectedNode);
-      console.log("ERROR SUPABASE:", error);
+console.log("ERROR SUPABASE:", error);
       const completion = await openai.chat.completions.create({
   model: "gpt-4o-mini",
   messages: [
