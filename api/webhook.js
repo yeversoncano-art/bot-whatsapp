@@ -88,12 +88,13 @@ if (userText && !message?.interactive?.button_reply?.id) {
     )
   );
 
- if (matchedNode) {
-  selectedNode = matchedNode.node_key;
-} else {
-  selectedNode =
-    existingClient?.last_node ||
-    product?.start_node;
+  if (matchedNode) {
+    selectedNode = matchedNode.node_key;
+  } else {
+    selectedNode =
+      existingClient?.last_node ||
+      product?.start_node;
+  }
 }
 
 // FALLBACK FINAL
@@ -108,7 +109,6 @@ const { data: node, error } = await supabase
   .select("*")
   .eq("node_key", selectedNode)
   .single();
-
 // GUARDAR CLIENTE
 const clientResult = await supabase
   .from("clients")
