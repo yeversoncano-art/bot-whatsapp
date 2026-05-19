@@ -295,7 +295,7 @@ const buttons =
       Authorization: `Bearer ${process.env.WHATSAPP_TOKEN}`,
       "Content-Type": "application/json",
     },
-   body: JSON.stringify(
+ body: JSON.stringify(
   buttons.length > 0
     ? {
         messaging_product: "whatsapp",
@@ -305,32 +305,37 @@ const buttons =
         interactive: {
           type: "button",
 
-         body: {
-  text:
-    (aiMessage || node?.message || "👇 Selecciona una opción:")
-      .substring(0, 900),
-},
+          body: {
+            text:
+              (aiMessage || "👇 Selecciona una opción:")
+                .substring(0, 900),
+          },
 
           action: {
             buttons,
           },
         },
       }
-    : {
-        messaging_product: "whatsapp",
-        to: from,
-        type: "text",
+    : hasMedia
+      ? null
+      : {
+          messaging_product: "whatsapp",
+          to: from,
+          type: "text",
 
-        text: {
-          body: aiMessage || node?.message || "Hola 👋",
-        },
-      }
+          text: {
+            body:
+              aiMessage ||
+              node?.message ||
+              "Hola 👋",
+          },
+        }
 ),
+
   }
 );
 
 const data = await response.json();
-
 console.log("RESPUESTA META:", data);
     }
 
