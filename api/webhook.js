@@ -189,8 +189,6 @@ const aiMessage =
   node?.use_ai && !hasMedia
     ? completion.choices[0].message.content
     : null;
-  ? completion.choices[0].message.content
-  : node?.message;
       const { data: clientData } = await supabase
   .from("clients")
   .select("*")
