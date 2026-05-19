@@ -308,10 +308,8 @@ const buttons =
           type: "button",
 
           body: {
-            text:
-              (aiMessage || "👇 Selecciona una opción:")
-                .substring(0, 900),
-          },
+  text: "👇 Selecciona una opción:",
+},
 
           action: {
             buttons,
