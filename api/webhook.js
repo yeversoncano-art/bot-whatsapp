@@ -202,6 +202,79 @@ const buttons =
         },
       }));
       console.log("BUTTONS LIMPIOS:", buttons);
+      if (Array.isArray(node?.media)) {
+
+  for (const item of node.media) {
+
+    if (item.type === "text") {
+
+      await fetch(
+        `https://graph.facebook.com/v19.0/${process.env.PHONE_NUMBER_ID}/messages`,
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${process.env.WHATSAPP_TOKEN}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            messaging_product: "whatsapp",
+            to: from,
+            type: "text",
+            text: {
+              body: item.content,
+            },
+          }),
+        }
+      );
+    }
+
+    if (item.type === "image") {
+
+      await fetch(
+        `https://graph.facebook.com/v19.0/${process.env.PHONE_NUMBER_ID}/messages`,
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${process.env.WHATSAPP_TOKEN}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            messaging_product: "whatsapp",
+            to: from,
+            type: "image",
+            image: {
+              link: item.url,
+            },
+          }),
+        }
+      );
+    }
+
+    if (item.type === "video") {
+
+      await fetch(
+        `https://graph.facebook.com/v19.0/${process.env.PHONE_NUMBER_ID}/messages`,
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${process.env.WHATSAPP_TOKEN}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            messaging_product: "whatsapp",
+            to: from,
+            type: "video",
+            video: {
+              link: item.url,
+            },
+          }),
+        }
+      );
+    }
+
+    await new Promise(r => setTimeout(r, 700));
+  }
+}
      const response = await fetch(
   `https://graph.facebook.com/v19.0/${process.env.PHONE_NUMBER_ID}/messages`,
   {
@@ -220,9 +293,11 @@ const buttons =
         interactive: {
           type: "button",
 
-          body: {
-            text: aiMessage || node?.message || "Hola 👋",
-          },
+         body: {
+  text:
+    (aiMessage || node?.message || "👇 Selecciona una opción:")
+      .substring(0, 900),
+},
 
           action: {
             buttons,
