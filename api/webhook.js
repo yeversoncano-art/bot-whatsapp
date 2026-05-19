@@ -150,7 +150,7 @@ const hasMedia =
 
 if (
   node?.use_ai &&
-  !message?.interactive?.button_reply?.id
+  selectedNode === "ia_libre"
 ) {
 
   const completion =
