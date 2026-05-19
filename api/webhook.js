@@ -142,12 +142,26 @@ console.log("NODE MESSAGE:", node?.message);
 console.log("USE AI:", node?.use_ai);
 console.log("SELECTED NODE:", selectedNode);
 console.log("ERROR SUPABASE:", error);
-      const completion = await openai.chat.completions.create({
-  model: "gpt-4o-mini",
-  messages: [
-    {
-      role: "system",
-      content: `
+      let aiMessage = null;
+
+const hasMedia =
+  Array.isArray(node?.media) &&
+  node.media.length > 0;
+
+if (
+  node?.use_ai &&
+  !message?.interactive?.button_reply?.id
+) {
+
+  const completion =
+    await openai.chat.completions.create({
+
+      model: "gpt-4o-mini",
+
+      messages: [
+        {
+          role: "system",
+          content: `
 Eres un vendedor amable especializado en cursos digitales.
 
 NODO ACTUAL:
@@ -171,24 +185,19 @@ ${product?.price} ${product?.currency}
 Tu objetivo es responder de forma natural,
 persuasiva y ayudar a cerrar la venta.
 `,
-    },
-    {
-      role: "user",
-      content:
-        message?.text?.body ||
-        selectedNode,
-    },
-  ],
-});
-      
-const hasMedia =
-  Array.isArray(node?.media) &&
-  node.media.length > 0;
+        },
+        {
+          role: "user",
+          content:
+            message?.text?.body ||
+            selectedNode,
+        },
+      ],
+    });
 
-const aiMessage =
-  node?.use_ai && !hasMedia
-    ? completion.choices[0].message.content
-    : null;
+  aiMessage =
+    completion.choices[0].message.content;
+}
       const { data: clientData } = await supabase
   .from("clients")
   .select("*")
