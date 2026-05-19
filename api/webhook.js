@@ -181,7 +181,14 @@ persuasiva y ayudar a cerrar la venta.
   ],
 });
       
-const aiMessage = node?.use_ai
+const hasMedia =
+  Array.isArray(node?.media) &&
+  node.media.length > 0;
+
+const aiMessage =
+  node?.use_ai && !hasMedia
+    ? completion.choices[0].message.content
+    : null;
   ? completion.choices[0].message.content
   : node?.message;
       const { data: clientData } = await supabase
