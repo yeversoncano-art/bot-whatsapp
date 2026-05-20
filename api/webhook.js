@@ -63,7 +63,9 @@ export async function POST(req) {
   const userText = normalizeText(
   message?.text?.body || ""
 );
-
+const isObjection = objectionWords.some(
+  (word) => userText.includes(word)
+);
 const { data: existingClient } = await supabase
   .from("clients")
   .select("*")
@@ -176,7 +178,11 @@ const hasMedia =
 
 if (
   node?.use_ai &&
-  !message?.interactive?.button_reply?.id
+  (
+    isObjection ||
+    selectedNode === "ia_libre"
+  ) &&
+ !message?.interactive?.button_reply?.id
 ) {
 
   const completion =
