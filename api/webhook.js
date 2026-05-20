@@ -1,5 +1,12 @@
 import { createClient } from "@supabase/supabase-js";
 import OpenAI from "openai";
+function normalizeText(text = "") {
+  return text
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .trim();
+}
 
 const supabase = createClient(
   process.env.SUPABASE_URL,
@@ -35,8 +42,9 @@ export async function POST(req) {
       const from = message.from;
       const contactName =
   body.entry?.[0]?.changes?.[0]?.value?.contacts?.[0]?.profile?.name || "";
-  const userText =
-  message?.text?.body?.toLowerCase() || "";
+  const userText = normalizeText(
+  message?.text?.body || ""
+);
 
 const { data: existingClient } = await supabase
   .from("clients")
@@ -83,7 +91,7 @@ if (userText && !message?.interactive?.button_reply?.id) {
   const matchedNode = allNodes?.find((n) =>
     (n.keywords || []).some((kw) =>
       userText.includes(
-        kw.toLowerCase()
+        normalizeText(kw)
       )
     )
   );
