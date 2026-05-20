@@ -7,7 +7,25 @@ function normalizeText(text = "") {
     .replace(/[\u0300-\u036f]/g, "")
     .trim();
 }
-
+const objectionWords = [
+  "caro",
+  "muy caro",
+  "costoso",
+  "no tengo dinero",
+  "sin dinero",
+  "no puedo pagar",
+  "no tengo tiempo",
+  "no se si funciona",
+  "no sé si funciona",
+  "funciona",
+  "desconfio",
+  "desconfío",
+  "dificil",
+  "difícil",
+  "no tengo experiencia",
+  "soy principiante",
+  "vale la pena"
+];
 const supabase = createClient(
   process.env.SUPABASE_URL,
   process.env.SUPABASE_ANON_KEY
