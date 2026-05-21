@@ -104,7 +104,11 @@ if (!selectedNode && !existingClient?.last_node) {
 }
 
 // MENSAJES ESCRITOS
-if (userText && !message?.interactive?.button_reply?.id) {
+if (
+  userText &&
+  !isObjection &&
+  !message?.interactive?.button_reply?.id
+) {
 
   const { data: allNodes } = await supabase
     .from("nodes")
