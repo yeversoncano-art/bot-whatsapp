@@ -74,7 +74,9 @@ const { data: existingClient } = await supabase
 
 let selectedNode =
   message?.interactive?.button_reply?.id || null;
-
+if (isObjection) {
+  selectedNode = "ia_libre";
+}
     if (
   userText.includes("ya pague") ||
   userText.includes("ya pagué") ||
