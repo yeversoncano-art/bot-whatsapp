@@ -380,7 +380,7 @@ body: JSON.stringify(
     "Hola 👋",
 },
       }
-),
+)
 
   }
 );
