@@ -74,7 +74,22 @@ const { data: existingClient } = await supabase
   .select("*")
   .eq("phone", from)
   .single();
+const buttons =
+  clientData?.status === "cliente"
+    ? []
+    : (node?.buttons || [])
+        .slice(0, 3)
+        .map((btn) => ({
+          type: "reply",
+          reply: {
+            id: btn.destino,
+            title: btn.texto
+              .replace(/[^\w\s]/gi, "")
+              .substring(0, 20),
+          },
+        }));
 
+console.log("BUTTONS:", buttons);
 let selectedNode =
   message?.interactive?.button_reply?.id || null;
 if (isObjection) {
