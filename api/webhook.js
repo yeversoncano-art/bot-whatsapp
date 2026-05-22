@@ -349,7 +349,7 @@ const response = await fetch(
       "Content-Type": "application/json",
     },
 body: JSON.stringify(
-  buttons.length > 0
+  buttons.length > 0 && !hasMedia
     ? {
         messaging_product: "whatsapp",
         to: from,
