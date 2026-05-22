@@ -261,7 +261,9 @@ const buttons =
 
 console.log("BUTTONS:", buttons);
 
-  for (const item of node.media) {
+if (Array.isArray(node?.media)) {
+
+for (const item of node.media) {
 
     if (item.type === "text") {
 
