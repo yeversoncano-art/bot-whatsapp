@@ -321,7 +321,7 @@ persuasiva y ayudar a cerrar la venta.
       Authorization: `Bearer ${process.env.WHATSAPP_TOKEN}`,
       "Content-Type": "application/json",
     },
- body: JSON.stringify(
+body: JSON.stringify(
   buttons.length > 0
     ? {
         messaging_product: "whatsapp",
@@ -332,30 +332,31 @@ persuasiva y ayudar a cerrar la venta.
           type: "button",
 
           body: {
-  text:
-    (
-      aiMessage ||
-      node?.message ||
-      "👇 Selecciona una opción:"
-    ).substring(0, 900),
-},
+            text:
+              (
+                aiMessage ||
+                node?.message ||
+                "👇 Selecciona una opción:"
+              ).substring(0, 900),
+          },
 
           action: {
-  buttons,
-},
-},
-}
-: {
-    messaging_product: "whatsapp",
-    to: from,
-    type: "text",
-          text: {
-            body:
-              aiMessage ||
-              node?.message ||
-              "Hola 👋",
+            buttons,
           },
-        }
+        },
+      }
+    : {
+        messaging_product: "whatsapp",
+        to: from,
+        type: "text",
+
+        text: {
+  body:
+    aiMessage ||
+    node?.message ||
+    "Hola 👋",
+},
+      }
 ),
 
   }
@@ -363,7 +364,6 @@ persuasiva y ayudar a cerrar la venta.
 
 const data = await response.json();
 console.log("RESPUESTA META:", data);
-    }
 
     return new Response("OK", { status: 200 });
   } catch (error) {
