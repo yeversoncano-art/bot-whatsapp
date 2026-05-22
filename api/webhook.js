@@ -374,16 +374,16 @@ body: JSON.stringify(
         type: "text",
 
         text: {
-  body:
-    aiMessage ||
-    node?.message ||
-    "Hola 👋",
-},
+          body:
+            aiMessage ||
+            node?.message ||
+            "Hola 👋",
+        },
       }
-)
-
+    ),
   }
 );
+
 const data = await response.json();
 console.log("RESPUESTA META:", data);
 
