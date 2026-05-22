@@ -372,19 +372,21 @@ body: JSON.stringify(
           },
         },
       }
-    : {
+    : !hasMedia
+? {
         messaging_product: "whatsapp",
         to: from,
         type: "text",
 
         text: {
-          body:
-            aiMessage ||
-            node?.message ||
-            "Hola 👋",
+         body:
+  aiMessage ||
+  node?.message ||
+  "Hola 👋",
         },
       }
-    ),
+    : null
+)
   }
 );
 
