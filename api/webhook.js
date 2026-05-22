@@ -389,6 +389,8 @@ console.log("RESPUESTA META:", data);
 
 return new Response("OK", { status: 200 });
 
+}
+
 } catch (error) {
   console.error(error);
   return new Response("Error", { status: 500 });
