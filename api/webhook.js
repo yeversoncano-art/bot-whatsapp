@@ -241,20 +241,6 @@ persuasiva y ayudar a cerrar la venta.
   .select("*")
   .eq("phone", from)
   .single();
-const buttons =
-  clientData?.status === "cliente"
-    ? []
-    : (node?.buttons || []).slice(0, 3).map((btn) => ({
-        type: "reply",
-        reply: {
-          id: btn.destino,
-          title: btn.texto
-            .replace(/[^\w\s]/gi, "")
-            .substring(0, 20),
-        },
-      }));
-      console.log("BUTTONS LIMPIOS:", buttons);
-      if (Array.isArray(node?.media)) {
 
   for (const item of node.media) {
 
@@ -346,21 +332,23 @@ const buttons =
           type: "button",
 
           body: {
-  text: "👇 Selecciona una opción:",
+  text:
+    (
+      aiMessage ||
+      node?.message ||
+      "👇 Selecciona una opción:"
+    ).substring(0, 900),
 },
 
           action: {
-            buttons,
-          },
-        },
-      }
-    : hasMedia
-      ? null
-      : {
-          messaging_product: "whatsapp",
-          to: from,
-          type: "text",
-
+  buttons,
+},
+},
+}
+: {
+    messaging_product: "whatsapp",
+    to: from,
+    type: "text",
           text: {
             body:
               aiMessage ||
