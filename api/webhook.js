@@ -125,9 +125,13 @@ if (
     )
   );
 
+  console.log("USER TEXT:", userText);
+console.log("MATCHED NODE:", matchedNode);
+  
   if (matchedNode) {
     selectedNode = matchedNode.node_key;
-  } else {
+  }
+  else {
     selectedNode =
   existingClient?.last_node ||
   product?.start_node;
