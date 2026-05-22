@@ -55,6 +55,9 @@ export async function POST(req) {
   try {
     const message =
       body.entry?.[0]?.changes?.[0]?.value?.messages?.[0];
+    if (!message) {
+  return new Response("OK", { status: 200 });
+}
 
     if (message) {
       const from = message.from;
