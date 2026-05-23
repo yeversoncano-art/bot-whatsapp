@@ -106,7 +106,7 @@ if (isObjection) {
 const { data: product } = await supabase
   .from("products")
   .select("*")
-  .eq("is_active", true)
+  .eq("id", existingClient?.current_product)
   .single();
 
 // PRIMERA INTERACCION
