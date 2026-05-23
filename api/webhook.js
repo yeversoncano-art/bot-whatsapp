@@ -429,7 +429,7 @@ else if (!hasMedia) {
   console.log("RESPUESTA META:", data);
 
 }
-
+}
 return new Response("OK", { status: 200 });
 
 } catch (error) {
