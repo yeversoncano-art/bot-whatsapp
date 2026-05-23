@@ -358,17 +358,18 @@ for (const item of node.media) {
 
 }
 
-const response = await fetch(
-  `https://graph.facebook.com/v19.0/${process.env.PHONE_NUMBER_ID}/messages`,
-  {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${process.env.WHATSAPP_TOKEN}`,
-      "Content-Type": "application/json",
-    },
-body: JSON.stringify(
-  buttons.length > 0 && !hasMedia
-    ? {
+if (buttons.length > 0) {
+
+  const response = await fetch(
+    `https://graph.facebook.com/v19.0/${process.env.PHONE_NUMBER_ID}/messages`,
+    {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${process.env.WHATSAPP_TOKEN}`,
+        "Content-Type": "application/json",
+      },
+
+      body: JSON.stringify({
         messaging_product: "whatsapp",
         to: from,
         type: "interactive",
@@ -389,31 +390,47 @@ body: JSON.stringify(
             buttons,
           },
         },
-      }
-    : !hasMedia
-? {
+      }),
+    }
+  );
+
+  const data = await response.json();
+  console.log("RESPUESTA META:", data);
+
+}
+
+else if (!hasMedia) {
+
+  const response = await fetch(
+    `https://graph.facebook.com/v19.0/${process.env.PHONE_NUMBER_ID}/messages`,
+    {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${process.env.WHATSAPP_TOKEN}`,
+        "Content-Type": "application/json",
+      },
+
+      body: JSON.stringify({
         messaging_product: "whatsapp",
         to: from,
         type: "text",
 
         text: {
-         body:
-  aiMessage ||
-  node?.message ||
-  "Hola 👋",
+          body:
+            aiMessage ||
+            node?.message ||
+            "Hola 👋",
         },
-      }
-    : null
-)
-  }
-);
+      }),
+    }
+  );
 
-const data = await response.json();
-console.log("RESPUESTA META:", data);
-
-return new Response("OK", { status: 200 });
+  const data = await response.json();
+  console.log("RESPUESTA META:", data);
 
 }
+
+return new Response("OK", { status: 200 });
 
 } catch (error) {
   console.error(error);
