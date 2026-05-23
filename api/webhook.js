@@ -116,8 +116,9 @@ if (
 ) {
 
   const { data: allNodes } = await supabase
-    .from("nodes")
-    .select("*");
+  .from("nodes")
+  .select("*")
+  .eq("product_id", existingClient?.current_product);
 
   const matchedNode = allNodes?.find((n) =>
     (n.keywords || []).some((kw) =>
