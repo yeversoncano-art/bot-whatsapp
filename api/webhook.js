@@ -158,6 +158,15 @@ const { data: node, error } = await supabase
   .select("*")
   .eq("node_key", selectedNode)
   .single();
+
+if (node?.product_id) {
+  await supabase
+    .from("clients")
+    .update({
+      current_product: node.product_id,
+    })
+    .eq("phone", from);
+}
 // GUARDAR CLIENTE
 const clientResult = await supabase
   .from("clients")
