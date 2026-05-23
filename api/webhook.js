@@ -242,7 +242,9 @@ NODO ACTUAL:
 ${selectedNode}
 
 MENSAJE DEL NODO:
-${node?.message}
+${selectedNode === "ia_libre"
+  ? ""
+  : node?.message}
 
 PRODUCTO:
 ${product?.name}
