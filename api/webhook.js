@@ -102,11 +102,6 @@ if (isObjection) {
     })
     .eq("phone", from);
 }
-const { data: product } = await supabase
-  .from("products")
-  .select("*")
-  .eq("id", node?.product_id)
-  .single();
 
 // PRIMERA INTERACCION
 if (!selectedNode && !existingClient?.last_node) {
@@ -138,11 +133,11 @@ console.log("MATCHED NODE:", matchedNode);
   if (matchedNode) {
     selectedNode = matchedNode.node_key;
   }
-  else {
-    selectedNode =
-  existingClient?.last_node ||
-  product?.start_node;
-  }
+ else {
+  selectedNode =
+    existingClient?.last_node ||
+    "bienvenida";
+}
 }
 
 // FALLBACK FINAL
@@ -166,6 +161,12 @@ if (node?.product_id) {
     })
     .eq("phone", from);
 }
+    const { data: product } = await supabase
+  .from("products")
+  .select("*")
+  .eq("id", node?.product_id)
+  .single();
+    
 // GUARDAR CLIENTE
 const clientResult = await supabase
   .from("clients")
