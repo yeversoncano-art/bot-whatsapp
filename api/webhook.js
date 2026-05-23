@@ -105,7 +105,7 @@ if (isObjection) {
 
 // PRIMERA INTERACCION
 if (!selectedNode && !existingClient?.last_node) {
-  selectedNode = product?.start_node;
+  selectedNode = "bienvenida";
 }
 
 // MENSAJES ESCRITOS
