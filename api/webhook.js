@@ -102,11 +102,10 @@ if (isObjection) {
     })
     .eq("phone", from);
 }
-
 const { data: product } = await supabase
   .from("products")
   .select("*")
-  .eq("id", existingClient?.current_product)
+  .eq("id", node?.product_id)
   .single();
 
 // PRIMERA INTERACCION
