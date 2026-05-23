@@ -53,13 +53,21 @@ export async function POST(req) {
   console.log("Mensaje recibido:", JSON.stringify(body, null, 2));
 
   try {
-    const message =
-      body.entry?.[0]?.changes?.[0]?.value?.messages?.[0];
-    if (!message) {
-  return new Response("OK", { status: 200 });
-}
+  const message =
+    body.entry?.[0]?.changes?.[0]?.value?.messages?.[0];
 
-    if (message) {
+  const statuses =
+    body.entry?.[0]?.changes?.[0]?.value?.statuses;
+
+  if (statuses) {
+    return new Response("OK", { status: 200 });
+  }
+
+  if (!message) {
+    return new Response("OK", { status: 200 });
+  }
+
+  if (message) {
       const from = message.from;
       const contactName =
   body.entry?.[0]?.changes?.[0]?.value?.contacts?.[0]?.profile?.name || "";
