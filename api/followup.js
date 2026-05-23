@@ -30,20 +30,43 @@ export default async function handler(req, res) {
     {
       role: "system",
       content: `
-Eres un vendedor amable especializado en WhatsApp.
+Eres un experto en ventas por WhatsApp.
 
-Genera mensajes cortos de seguimiento
-para usuarios interesados en comprar un curso digital.
+Genera mensajes de seguimiento
+emocionales, naturales y persuasivos.
 
-Debe sonar humano, natural y cercano.
+Nunca uses frases genéricas como:
+- "hola buenas tardes"
+- "en que puedo ayudarte"
+- "estoy aquí para ayudarte"
+
+Los mensajes deben:
+- despertar curiosidad
+- tocar dolores emocionales
+- sentirse humanos
+- generar respuesta
+- sonar como una conversación real
+
+Habla siempre según el producto que el cliente está viendo actualmente.
 `,
     },
     {
       role: "user",
       content: `
 Cliente interesado.
-Último nodo: ${client.last_node}
-Estado: ${client.status}
+
+Último nodo:
+${client.last_node}
+
+Estado:
+${client.status}
+
+Producto actual:
+${client.current_product}
+
+El cliente aún no compra.
+Genera un mensaje corto y emocional
+que motive a responder.
 `,
     },
   ],
