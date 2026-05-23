@@ -134,10 +134,21 @@ console.log("MATCHED NODE:", matchedNode);
   if (matchedNode) {
     selectedNode = matchedNode.node_key;
   }
- else {
-  selectedNode =
-    existingClient?.last_node ||
-    "bienvenida";
+else {
+
+  if (
+    existingClient?.last_node &&
+    userText.length > 10
+  ) {
+    selectedNode = "ia_libre";
+  }
+
+  else {
+    selectedNode =
+      existingClient?.last_node ||
+      "bienvenida";
+  }
+
 }
 }
 
