@@ -17,13 +17,14 @@ export default async function handler(req, res) {
   .is("checkout_at", null);
 
   console.log("CLIENTES INTERESADOS:", clients);
-  await supabase
-  .from("clients")
-  .update({
-    last_followup_sent: new Date(),
-  })
-  .eq("phone", client.phone);
   for (const client of clients || []) {
+    
+    const { data: product } = await supabase
+  .from("products")
+  .select("*")
+  .eq("id", client.current_product)
+  .single();
+    
  const completion = await openai.chat.completions.create({
   model: "gpt-4o-mini",
   messages: [
@@ -61,8 +62,14 @@ ${client.last_node}
 Estado:
 ${client.status}
 
-Producto actual:
-${client.current_product}
+PRODUCTO:
+${product?.name}
+
+DESCRIPCIÓN:
+${product?.description}
+
+PROMESA:
+${product?.promise}
 
 El cliente aún no compra.
 Genera un mensaje corto y emocional
@@ -94,6 +101,12 @@ const followupMessage =
   );
 
   console.log("FOLLOWUP ENVIADO:", client.phone);
+    await supabase
+  .from("clients")
+  .update({
+    last_followup_sent: new Date(),
+  })
+  .eq("phone", client.phone);
 }
 
   return res.status(200).json({
