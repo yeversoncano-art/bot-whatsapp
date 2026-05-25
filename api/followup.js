@@ -12,9 +12,9 @@ export default async function handler(req, res) {
   const { data: clients } = await supabase
   .from("clients")
   .select("*")
-  .eq("status", "interesado")
-  .is("last_followup_sent", null);
-  .is("checkout_at", null)
+ .eq("status", "interesado")
+  .is("last_followup_sent", null)
+  .is("checkout_at", null);
 
   console.log("CLIENTES INTERESADOS:", clients);
   await supabase
