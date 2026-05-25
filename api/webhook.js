@@ -88,6 +88,13 @@ const { data: activeProduct } =
     .select("*")
     .eq("is_active", true)
     .single();
+
+    await supabase
+  .from("clients")
+  .update({
+    current_product: activeProduct.id,
+  })
+  .eq("phone", from);
     
 let selectedNode =
   message?.interactive?.button_reply?.id || null;
