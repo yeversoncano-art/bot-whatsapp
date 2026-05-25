@@ -176,8 +176,6 @@ if (node?.product_id) {
   existingClient.current_product =
     node.product_id;
 }
-    .eq("phone", from);
-}
     const { data: product } = await supabase
   .from("products")
   .select("*")
