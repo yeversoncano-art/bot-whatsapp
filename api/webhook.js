@@ -178,10 +178,14 @@ if (node?.product_id) {
     node.product_id;
 }
 }
-    const { data: product } = await supabase
+let currentProductId =
+  node?.product_id ||
+  existingClient?.current_product;
+
+const { data: product } = await supabase
   .from("products")
   .select("*")
-  .eq("id", node?.product_id)
+  .eq("id", currentProductId)
   .single();
     
 // GUARDAR CLIENTE
