@@ -74,6 +74,16 @@ export async function POST(req) {
   const userText = normalizeText(
   message?.text?.body || ""
 );
+
+await supabase
+  .from("mensajes")
+  .insert({
+    telefono: from,
+    mensaje: userText,
+    sender: "user",
+    created_at: new Date(),
+  });
+
 const isObjection = objectionWords.some(
   (word) => userText.includes(word)
 );
