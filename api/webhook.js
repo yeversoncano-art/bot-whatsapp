@@ -442,8 +442,10 @@ if (buttons.length > 0) {
   );
 
   const data = await response.json();
-  console.log("RESPUESTA META:", data);
-  await supabase
+
+console.log("RESPUESTA META:", data);
+
+await supabase
   .from("mensajes")
   .insert({
     telefono: from,
@@ -484,7 +486,9 @@ else if (!hasMedia) {
   );
 
   const data = await response.json();
-  console.log("RESPUESTA META:", data);
+
+console.log("RESPUESTA META:", data);
+
 await supabase
   .from("mensajes")
   .insert({
