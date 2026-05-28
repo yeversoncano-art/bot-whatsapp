@@ -71,7 +71,7 @@ export async function POST(req) {
       const from = message.from;
       const contactName =
   body.entry?.[0]?.changes?.[0]?.value?.contacts?.[0]?.profile?.name || "";
-  const userText = normalizeText(
+ const userText = normalizeText(
   message?.text?.body || ""
 );
 
@@ -80,7 +80,7 @@ await supabase
   .insert({
     telefono: from,
     mensaje: userText,
-    sender: "user",
+    tipo: "user",
     created_at: new Date(),
   });
 
@@ -451,7 +451,7 @@ if (buttons.length > 0) {
       aiMessage ||
       node?.message ||
       "Hola 👋",
-    sender: "bot",
+    tipo: "bot",
     created_at: new Date(),
   });
 
@@ -493,7 +493,7 @@ await supabase
       aiMessage ||
       node?.message ||
       "Hola 👋",
-    sender: "bot",
+    tipo: "bot",
     created_at: new Date(),
   });
 }
