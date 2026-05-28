@@ -443,6 +443,17 @@ if (buttons.length > 0) {
 
   const data = await response.json();
   console.log("RESPUESTA META:", data);
+  await supabase
+  .from("mensajes")
+  .insert({
+    telefono: from,
+    mensaje:
+      aiMessage ||
+      node?.message ||
+      "Hola 👋",
+    sender: "bot",
+    created_at: new Date(),
+  });
 
 }
 
@@ -474,7 +485,17 @@ else if (!hasMedia) {
 
   const data = await response.json();
   console.log("RESPUESTA META:", data);
-
+await supabase
+  .from("mensajes")
+  .insert({
+    telefono: from,
+    mensaje:
+      aiMessage ||
+      node?.message ||
+      "Hola 👋",
+    sender: "bot",
+    created_at: new Date(),
+  });
 }
 }
 return new Response("OK", { status: 200 });
