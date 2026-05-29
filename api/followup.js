@@ -56,7 +56,7 @@ Habla siempre según el producto que el cliente está viendo actualmente.
       content: `
 Cliente interesado.
 
-Último nodo:
+El cliente dejó de responder después de esta etapa:
 ${client.last_node}
 
 Estado:
@@ -72,10 +72,21 @@ PROMESA:
 ${product?.promise}
 
 El cliente aún no compra.
-Genera un mensaje corto y emocional
-que motive a responder.
-`,
-    },
+
+NO repitas literalmente el último mensaje
+ni vuelvas a enviar el mismo nodo.
+
+Continúa la conversación de forma natural,
+emocional y humana.
+
+El objetivo es:
+- reactivar el interés
+- generar respuesta
+- resolver dudas
+- continuar la conversación naturalmente
+
+Haz un mensaje corto, humano y conversacional
+como un vendedor real de WhatsApp.
   ],
 });
 
