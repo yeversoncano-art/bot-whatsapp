@@ -459,7 +459,7 @@ await supabase
 
 }
 
-else if (!hasMedia) {
+else if (!node?.media?.length) {
 
   const response = await fetch(
     `https://graph.facebook.com/v19.0/${process.env.PHONE_NUMBER_ID}/messages`,
