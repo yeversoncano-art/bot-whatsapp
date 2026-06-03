@@ -87,27 +87,31 @@ await supabase
 const isObjection = objectionWords.some(
   (word) => userText.includes(word)
 );
+    
 const { data: existingClient } = await supabase
   .from("clients")
   .select("*")
   .eq("phone", from)
   .single();
-const { data: activeProduct } =
-  await supabase
-    .from("products")
-    .select("*")
-    .eq("is_active", true)
-    .single();
 
-    await supabase
-  .from("clients")
-  .update({
-    current_product: activeProduct.id,
-  })
-  .eq("phone", from);
-    
 let selectedNode =
   message?.interactive?.button_reply?.id || null;
+
+if (
+  message.type === "image" &&
+  existingClient?.status === "esperando_comprobante"
+) {
+
+  selectedNode = "acceso";
+
+  await supabase
+    .from("clients")
+    .update({
+      status: "cliente",
+    })
+    .eq("phone", from);
+}
+
 if (isObjection) {
   selectedNode = "ia_libre";
 }
@@ -120,7 +124,7 @@ if (isObjection) {
   await supabase
     .from("clients")
     .update({
-      status: "cliente",
+      status: "esperando_comprobante",
       checkout_at: new Date(),
     })
     .eq("phone", from);
