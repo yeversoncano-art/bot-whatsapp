@@ -200,7 +200,8 @@ const { data: node, error } = await supabase
   .from("nodes")
   .select("*")
   .eq("node_key", selectedNode)
-  .single();
+.eq("product_id", currentProductId)
+.single();
 
 if (node?.product_id) {
   await supabase
