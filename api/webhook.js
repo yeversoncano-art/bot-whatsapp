@@ -215,6 +215,7 @@ if (node?.product_id) {
   existingClient.current_product =
     node.product_id;
 }
+  currentProductId = node.product_id;
 }
 
 const { data: product } = await supabase
