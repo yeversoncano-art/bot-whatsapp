@@ -94,6 +94,9 @@ const { data: existingClient } = await supabase
   .eq("phone", from)
   .single();
 
+let currentProductId =
+  existingClient?.current_product || 1;
+
 let selectedNode =
   message?.interactive?.button_reply?.id || null;
 
@@ -145,7 +148,7 @@ if (
   const { data: allNodes } = await supabase
   .from("nodes")
   .select("*")
-  .eq("product_id", activeProduct.id);
+ .eq("product_id", currentProductId);
 
   const matchedNode = allNodes?.find((n) =>
     (n.keywords || []).some((kw) =>
@@ -205,9 +208,6 @@ if (node?.product_id) {
     node.product_id;
 }
 }
-let currentProductId =
-  node?.product_id ||
-  existingClient?.current_product;
 
 const { data: product } = await supabase
   .from("products")
@@ -282,16 +282,16 @@ ${selectedNode === "ia_libre"
   ? ""
   : node?.message}
 PRODUCTO:
-${activeProduct?.name}
+${product?.name}
 
 DESCRIPCIÓN:
-${activeProduct?.description}
+${product?.description}
 
 PROMESA:
-${activeProduct?.promise}
+${product?.promise}
 
 PRECIO:
-${activeProduct?.price} ${activeProduct?.currency}
+${product?.price} ${product?.currency}
 
 Tu objetivo es responder de forma natural,
 persuasiva y ayudar a cerrar la venta.
