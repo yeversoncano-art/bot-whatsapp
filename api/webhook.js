@@ -95,7 +95,7 @@ const { data: existingClient } = await supabase
   .single();
 
 let currentProductId =
-  existingClient?.current_product || 1;
+  existingClient?.current_product;
 
 let selectedNode =
   message?.interactive?.button_reply?.id || null;
