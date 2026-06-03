@@ -181,9 +181,7 @@ else {
   }
 
   else {
-    selectedNode =
-      existingClient?.last_node ||
-      "bienvenida";
+    selectedNode = "bienvenida";
   }
 
 }
