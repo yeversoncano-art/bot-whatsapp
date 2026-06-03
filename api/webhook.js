@@ -436,16 +436,15 @@ if (buttons.length > 0) {
         type: "interactive",
 
         interactive: {
-          type: "button",
+  type: "button",
 
-          body: {
-            text:
-              (
-                aiMessage ||
-                node?.message ||
-                "👇 Selecciona una opción:"
-              ).substring(0, 900),
-          },
+  body: {
+    text:
+      (
+        aiMessage ||
+        "👇 Selecciona una opción:"
+      ).substring(0, 900),
+  },
 
           action: {
             buttons,
@@ -473,7 +472,10 @@ await supabase
 
 }
 
-else if (!node?.media?.length) {
+else if (
+  !node?.media?.length &&
+  !Array.isArray(node?.media)
+) {
 
   const response = await fetch(
     `https://graph.facebook.com/v19.0/${process.env.PHONE_NUMBER_ID}/messages`,
