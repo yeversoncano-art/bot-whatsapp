@@ -102,7 +102,6 @@ const { data: activeProduct } =
     .single();
 
 let currentProductId =
-  existingClient?.current_product ||
   activeProduct?.id;
 
 let selectedNode =
