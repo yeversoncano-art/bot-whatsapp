@@ -390,25 +390,32 @@ for (const item of node.media) {
 
     if (item.type === "video") {
 
-      await fetch(
-        `https://graph.facebook.com/v19.0/${process.env.PHONE_NUMBER_ID}/messages`,
-        {
-          method: "POST",
-          headers: {
-            Authorization: `Bearer ${process.env.WHATSAPP_TOKEN}`,
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            messaging_product: "whatsapp",
-            to: from,
-            type: "video",
-            video: {
-              link: item.url,
-            },
-          }),
-        }
-      );
+  const response = await fetch(
+    `https://graph.facebook.com/v19.0/${process.env.PHONE_NUMBER_ID}/messages`,
+    {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${process.env.WHATSAPP_TOKEN}`,
+        "Content-Type": "application/json",
+      },
+
+      body: JSON.stringify({
+        messaging_product: "whatsapp",
+        to: from,
+        type: "video",
+
+        video: {
+          link: item.url,
+        },
+      }),
     }
+  );
+
+  const data = await response.json();
+
+  console.log("VIDEO URL:", item.url);
+  console.log("VIDEO RESPONSE:", data);
+}
 
     await new Promise(r => setTimeout(r, 700));
   }
