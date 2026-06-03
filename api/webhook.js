@@ -341,10 +341,7 @@ if (Array.isArray(node?.media)) {
 
 for (const item of node.media) {
 
-    if (
-  item.type === "text" &&
-  buttons.length === 0
-) {
+   if (item.type === "text") {
 
       await fetch(
         `https://graph.facebook.com/v19.0/${process.env.PHONE_NUMBER_ID}/messages`,
