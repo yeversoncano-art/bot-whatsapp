@@ -439,12 +439,16 @@ if (buttons.length > 0) {
   type: "button",
 
   body: {
-    text:
-      (
-        aiMessage ||
-        "👇 Selecciona una opción:"
-      ).substring(0, 900),
-  },
+  text:
+    (
+      aiMessage ||
+      node?.media
+        ?.filter(x => x.type === "text")
+        ?.slice(-1)[0]
+        ?.content ||
+      "👇 Selecciona una opción:"
+    ).substring(0, 900),
+},
 
           action: {
             buttons,
