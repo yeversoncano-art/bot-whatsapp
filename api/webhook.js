@@ -404,10 +404,60 @@ for (const item of node.media) {
 
     if (itemType === "video") {
 
+  // DESCARGAR VIDEO
+  const videoResponse = await fetch(item.url);
+
+  const videoBlob = await videoResponse.blob();
+
+  // SUBIR VIDEO A META
+  const formData = new FormData();
+
+  formData.append(
+    "file",
+    videoBlob,
+    "video.mp4"
+  );
+
+  formData.append(
+    "messaging_product",
+    "whatsapp"
+  );
+
+  formData.append(
+    "type",
+    "video/mp4"
+  );
+
+  const uploadResponse = await fetch(
+    `https://graph.facebook.com/v19.0/${process.env.PHONE_NUMBER_ID}/media`,
+    {
+      method: "POST",
+
+      headers: {
+        Authorization: `Bearer ${process.env.WHATSAPP_TOKEN}`,
+      },
+
+      body: formData,
+    }
+  );
+
+  const uploadData =
+    await uploadResponse.json();
+
+  console.log(
+    "UPLOAD VIDEO:",
+    uploadData
+  );
+
+  const mediaId =
+    uploadData.id;
+
+  // ENVIAR VIDEO
   const response = await fetch(
     `https://graph.facebook.com/v19.0/${process.env.PHONE_NUMBER_ID}/messages`,
     {
       method: "POST",
+
       headers: {
         Authorization: `Bearer ${process.env.WHATSAPP_TOKEN}`,
         "Content-Type": "application/json",
@@ -415,20 +465,35 @@ for (const item of node.media) {
 
       body: JSON.stringify({
         messaging_product: "whatsapp",
+
         to: from,
+
         type: "video",
 
         video: {
-          link: item.url,
+          id: mediaId,
         },
       }),
     }
   );
 
-  const data = await response.json();
+  const data =
+    await response.json();
 
-  console.log("VIDEO URL:", item.url);
-  console.log("VIDEO RESPONSE:", data);
+  console.log(
+    "VIDEO URL:",
+    item.url
+  );
+
+  console.log(
+    "UPLOAD VIDEO:",
+    uploadData
+  );
+
+  console.log(
+    "VIDEO RESPONSE:",
+    data
+  );
 }
 
     await new Promise(r => setTimeout(r, 700));
