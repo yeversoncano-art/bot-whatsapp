@@ -60,8 +60,14 @@ export async function POST(req) {
     body.entry?.[0]?.changes?.[0]?.value?.statuses;
 
   if (statuses) {
-    return new Response("OK", { status: 200 });
-  }
+
+  console.log(
+    "WHATSAPP STATUS:",
+    JSON.stringify(statuses, null, 2)
+  );
+
+  return new Response("OK", { status: 200 });
+}
 
   if (!message) {
     return new Response("OK", { status: 200 });
