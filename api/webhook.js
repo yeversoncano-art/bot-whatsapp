@@ -341,8 +341,16 @@ if (Array.isArray(node?.media)) {
 
 for (const item of node.media) {
 
-   if (item.type === "text") {
+  const itemType =
+    item.type || item.tipo;
 
+  const itemContent =
+    item.content || item.contenido;
+
+   if (
+     itemType === "text" ||
+     itemType === "texto"
+   ) {
       await fetch(
         `https://graph.facebook.com/v19.0/${process.env.PHONE_NUMBER_ID}/messages`,
         {
@@ -356,14 +364,17 @@ for (const item of node.media) {
             to: from,
             type: "text",
             text: {
-              body: item.content,
+              body: itemContent,
             },
           }),
         }
       );
     }
 
-    if (item.type === "image") {
+    if (
+  itemType === "image" ||
+  itemType === "imagen"
+) {
 
       await fetch(
         `https://graph.facebook.com/v19.0/${process.env.PHONE_NUMBER_ID}/messages`,
@@ -385,7 +396,7 @@ for (const item of node.media) {
       );
     }
 
-    if (item.type === "video") {
+    if (itemType === "video") {
 
   const response = await fetch(
     `https://graph.facebook.com/v19.0/${process.env.PHONE_NUMBER_ID}/messages`,
