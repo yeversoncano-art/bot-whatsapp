@@ -122,6 +122,15 @@ const { data: productAccess } =
       existingClient?.current_product
     )
     .single();
+    console.log(
+  "PRODUCT ACCESS:",
+  productAccess
+);
+
+console.log(
+  "ACCESS NODE:",
+  productAccess?.access_node
+);
 
 if (
   message.type === "image" &&
