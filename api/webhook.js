@@ -112,7 +112,8 @@ let currentProductId =
 
 let selectedNode =
   message?.interactive?.button_reply?.id || null;
-    const { data: productAccess } =
+
+const { data: productAccess } =
   await supabase
     .from("products")
     .select("*")
