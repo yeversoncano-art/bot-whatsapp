@@ -112,13 +112,24 @@ let currentProductId =
 
 let selectedNode =
   message?.interactive?.button_reply?.id || null;
+    const { data: productAccess } =
+  await supabase
+    .from("products")
+    .select("*")
+    .eq(
+      "id",
+      existingClient?.current_product
+    )
+    .single();
 
 if (
   message.type === "image" &&
   existingClient?.status === "esperando_comprobante"
 ) {
 
-  selectedNode = "acceso";
+  selectedNode =
+    productAccess?.access_node ||
+    "acceso";
 
   await supabase
     .from("clients")
