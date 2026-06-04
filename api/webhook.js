@@ -524,10 +524,6 @@ if (buttons.length > 0) {
   text:
     (
       aiMessage ||
-      node?.media
-        ?.filter(x => x.type === "text")
-        ?.slice(-1)[0]
-        ?.content ||
       "👇 Selecciona una opción:"
     ).substring(0, 900),
 },
