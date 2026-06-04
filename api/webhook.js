@@ -588,16 +588,15 @@ else if (
 console.log("RESPUESTA META:", data);
 
 await supabase
-  .from("mensajes")
-  .insert({
-    telefono: from,
-    mensaje:
-      aiMessage ||
-      node?.message ||
-      "Hola 👋",
-    tipo: "bot",
-    created_at: new Date(),
-  });
+.from("mensajes")
+.insert({
+  telefono: from,
+  mensaje:
+    aiMessage ||
+    "Flujo enviado",
+  tipo: "bot",
+  created_at: new Date(),
+});
 }
 }
 return new Response("OK", { status: 200 });
