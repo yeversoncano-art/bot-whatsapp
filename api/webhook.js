@@ -221,7 +221,10 @@ else {
 }
 
 // FALLBACK FINAL
-if (!selectedNode) {
+if (
+  !selectedNode &&
+  message.type === "text"
+) {
   selectedNode =
     existingClient?.last_node ||
     "ia_libre";
