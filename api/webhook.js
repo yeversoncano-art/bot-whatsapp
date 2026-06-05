@@ -76,8 +76,13 @@ export async function POST(req) {
 if (message) {
 
   console.log(
-    "TIPO MENSAJE:",
+    "TIPO MENSAJE REAL:",
     message.type
+  );
+
+  console.log(
+    "MENSAJE REAL:",
+    JSON.stringify(message, null, 2)
   );
 
   const from = message.from;
