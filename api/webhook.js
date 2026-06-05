@@ -148,11 +148,12 @@ if (
     "acceso";
 
   await supabase
-    .from("clients")
-    .update({
-      status: "cliente",
-    })
-    .eq("phone", from);
+  .from("clients")
+  .update({
+    status: "cliente",
+    last_node: selectedNode,
+  })
+  .eq("phone", from);
 }
 else {
 if (isObjection) {
