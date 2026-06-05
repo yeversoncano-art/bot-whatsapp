@@ -59,7 +59,7 @@ export async function POST(req) {
   const statuses =
     body.entry?.[0]?.changes?.[0]?.value?.statuses;
 
-  if (statuses) {
+ if (statuses && !message) {
 
   console.log(
     "WHATSAPP STATUS:",
@@ -144,21 +144,41 @@ console.log(
 );
 
 if (
-  message.type === "image" &&
-  existingClient?.status === "esperando_comprobante"
+(
+  message.type === "image" ||
+  message.type === "document"
+) &&
+  existingClient?.status ===
+    "esperando_comprobante"
 ) {
 
+  if (!productAccess?.access_node) {
+
+    console.log(
+      "NO EXISTE ACCESS NODE"
+    );
+
+    return new Response(
+      "OK",
+      { status: 200 }
+    );
+  }
+
   selectedNode =
-    productAccess?.access_node ||
-    "acceso";
+    productAccess.access_node;
+
+  console.log(
+    "ABRIENDO ACCESO:",
+    selectedNode
+  );
 
   await supabase
-  .from("clients")
-  .update({
-    status: "cliente",
-    last_node: selectedNode,
-  })
-  .eq("phone", from);
+    .from("clients")
+    .update({
+      status: "cliente",
+      last_node: selectedNode,
+    })
+    .eq("phone", from);
 }
 else {
 if (isObjection) {
@@ -242,19 +262,34 @@ const { data: node, error } = await supabase
   .eq("node_key", selectedNode)
 .single();
 
-if (node?.product_id) {
+if (
+  node?.node_key === "precio" ||
+  node?.node_key === "precio_nutri"
+) {
+
   await supabase
     .from("clients")
     .update({
-      current_product: node.product_id,
+      current_product:
+        node.product_id,
+
+      status:
+        "esperando_comprobante",
     })
     .eq("phone", from);
 
+  console.log(
+    "PRODUCTO ACTUAL GUARDADO"
+  );
+
   if (existingClient) {
-  existingClient.current_product =
+
+    existingClient.current_product =
+      node.product_id;
+  }
+
+  currentProductId =
     node.product_id;
-}
-  currentProductId = node.product_id;
 }
 
 const { data: product } = await supabase
