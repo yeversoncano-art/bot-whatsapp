@@ -148,7 +148,7 @@ if (
     })
     .eq("phone", from);
 }
-
+else {
 if (isObjection) {
   selectedNode = "ia_libre";
 }
@@ -220,7 +220,7 @@ if (!selectedNode) {
     existingClient?.last_node ||
     "ia_libre";
 }
-
+}
 const { data: node, error } = await supabase
   .from("nodes")
   .select("*")
