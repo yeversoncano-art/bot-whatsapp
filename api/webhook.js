@@ -69,12 +69,18 @@ export async function POST(req) {
   return new Response("OK", { status: 200 });
 }
 
-  if (!message) {
-    return new Response("OK", { status: 200 });
-  }
+ if (!message) {
+  return new Response("OK", { status: 200 });
+}
 
-  if (message) {
-      const from = message.from;
+if (message) {
+
+  console.log(
+    "TIPO MENSAJE:",
+    message.type
+  );
+
+  const from = message.from;
       const contactName =
   body.entry?.[0]?.changes?.[0]?.value?.contacts?.[0]?.profile?.name || "";
  const userText = normalizeText(
