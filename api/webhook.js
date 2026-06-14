@@ -148,9 +148,13 @@ if (
   message.type === "image" ||
   message.type === "document"
 ) &&
-  existingClient?.status ===
-    "esperando_comprobante"
+existingClient?.status ===
+"esperando_comprobante"
 ) {
+
+  console.log(
+    "COMPROBANTE DETECTADO"
+  );
 
   if (!productAccess?.access_node) {
 
@@ -175,10 +179,72 @@ if (
   await supabase
     .from("clients")
     .update({
+
       status: "cliente",
-      last_node: selectedNode,
+
+      last_node:
+        selectedNode,
+
+      current_product: null,
+
     })
     .eq("phone", from);
+
+  // BUSCAR NODO ACCESO
+
+  const { data: accessNode } =
+    await supabase
+      .from("nodes")
+      .select("*")
+      .eq(
+        "node_key",
+        selectedNode
+      )
+      .single();
+
+  // ENVIAR ACCESO
+
+  await fetch(
+    `https://graph.facebook.com/v19.0/${process.env.PHONE_NUMBER_ID}/messages`,
+    {
+      method: "POST",
+
+      headers: {
+        Authorization:
+          `Bearer ${process.env.WHATSAPP_TOKEN}`,
+
+        "Content-Type":
+          "application/json",
+      },
+
+      body: JSON.stringify({
+
+        messaging_product:
+          "whatsapp",
+
+        to: from,
+
+        type: "text",
+
+        text: {
+          body:
+            accessNode?.message ||
+            "✅ Acceso activado",
+        },
+      }),
+    }
+  );
+
+  console.log(
+    "ACCESO ENVIADO"
+  );
+
+  // DETENER TODO
+
+  return new Response(
+    "OK",
+    { status: 200 }
+  );
 }
 else {
 if (isObjection) {
@@ -200,8 +266,15 @@ if (isObjection) {
 }
 
 // PRIMERA INTERACCION
-if (!selectedNode && !existingClient?.last_node) {
-  selectedNode = "bienvenida";
+if (
+  !selectedNode &&
+  !existingClient?.last_node &&
+  existingClient?.status !==
+    "esperando_comprobante"
+) {
+
+  selectedNode =
+    "bienvenida";
 }
 
 // MENSAJES ESCRITOS
@@ -249,7 +322,9 @@ else {
 // FALLBACK FINAL
 if (
   !selectedNode &&
-  message.type === "text"
+  message.type === "text" &&
+  existingClient?.status !==
+    "esperando_comprobante"
 ) {
   selectedNode =
     existingClient?.last_node ||
@@ -304,9 +379,15 @@ const clientResult = await supabase
   .upsert(
     {
       phone: from,
-      name: contactName,
-      last_node: selectedNode,
-      last_interaction: new Date(),
+
+name: contactName,
+
+last_node:
+  selectedNode ||
+  existingClient?.last_node,
+
+last_interaction:
+  new Date(),
     },
     {
       onConflict: "phone",
