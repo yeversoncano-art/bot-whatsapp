@@ -338,8 +338,7 @@ const { data: node, error } = await supabase
 .single();
 
 if (
-  node?.node_key === "precio" ||
-  node?.node_key === "precio_nutri"
+  node?.node_key?.includes("precio")
 ) {
 
   await supabase
