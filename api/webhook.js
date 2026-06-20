@@ -372,6 +372,12 @@ const { data: product } = await supabase
   .eq("id", currentProductId)
   .single();
     
+const visitedNodes =
+  selectedNode &&
+  selectedNode !== existingClient?.last_node
+    ? (existingClient?.visited_nodes || 0) + 1
+    : (existingClient?.visited_nodes || 0);
+
 // GUARDAR CLIENTE
 const clientResult = await supabase
   .from("clients")
@@ -379,14 +385,17 @@ const clientResult = await supabase
     {
       phone: from,
 
-name: contactName,
+      name: contactName,
 
-last_node:
-  selectedNode ||
-  existingClient?.last_node,
+      last_node:
+        selectedNode ||
+        existingClient?.last_node,
 
-last_interaction:
-  new Date(),
+      last_interaction:
+        new Date(),
+
+      visited_nodes:
+        visitedNodes,
     },
     {
       onConflict: "phone",
@@ -395,14 +404,18 @@ last_interaction:
 
 console.log("CLIENT RESULT:", clientResult);
 
-// MARCAR INTERESADO
-if (selectedNode === "precio_velas") {
+if (visitedNodes >= 3) {
+
   await supabase
     .from("clients")
     .update({
       status: "interesado",
     })
     .eq("phone", from);
+
+  console.log(
+    "CLIENTE MARCADO COMO INTERESADO"
+  );
 }
 
 console.log("PRODUCT:", product);
