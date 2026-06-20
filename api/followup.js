@@ -12,10 +12,10 @@ export default async function handler(req, res) {
   const { data: clients } = await supabase
   .from("clients")
   .select("*")
- .eq("status", "interesado")
+  .eq("status", "interesado")
+  .gte("visited_nodes", 3)
   .is("last_followup_sent", null)
   .is("checkout_at", null);
-
   console.log("CLIENTES INTERESADOS:", clients);
   for (const client of clients || []) {
     
@@ -29,28 +29,60 @@ export default async function handler(req, res) {
   model: "gpt-4o-mini",
   messages: [
     {
-      role: "system",
-      content: `
+role: "system",
+content: `
 Eres un experto en ventas por WhatsApp.
 
-Genera mensajes de seguimiento
-emocionales, naturales y persuasivos.
+Genera mensajes de seguimiento emocionales, naturales y persuasivos.
 
 Nunca uses frases genéricas como:
-- "hola buenas tardes"
-- "en que puedo ayudarte"
-- "estoy aquí para ayudarte"
+
+* hola buenas tardes
+* en que puedo ayudarte
+* estoy aquí para ayudarte
+* solo quería saber si sigues interesado
 
 Los mensajes deben:
-- despertar curiosidad
-- tocar dolores emocionales
-- sentirse humanos
-- generar respuesta
-- sonar como una conversación real
+
+* despertar curiosidad
+* tocar emociones reales
+* sentirse humanos
+* generar respuesta
+* sonar como una conversación real
+* adaptarse al producto actual
+
+Reglas:
+
+* Máximo 2 líneas.
+* Máximo 180 caracteres.
+* Usa lenguaje natural de WhatsApp.
+* Usa 1 o 2 emojis cuando aporten cercanía.
+* No abuses de emojis.
+* No hagas preguntas largas.
+* No uses párrafos extensos.
+* No repitas la descripción del producto.
+* No repitas el último nodo.
+* No parezcas un bot.
+* No parezcas un vendedor agresivo.
+* No saludes.
+* No digas "estoy aquí para ayudarte".
+* Genera curiosidad.
+* Motiva a responder.
+* Termina con una pregunta corta.
+
+Ejemplos:
+
+😊 Me acordé de tu consulta y pensé que este material podría ayudarte bastante. ¿Te gustaría ver más detalles?
+
+📚 Muchas familias se sorprenden al ver lo rápido que avanzan cuando tienen una guía adecuada. ¿Quieres conocerla?
+
+💛 A veces pequeños cambios hacen una gran diferencia en el aprendizaje. ¿Te gustaría ver cómo funciona?
+
+✨ Vi que estuviste revisando el material. Creo que podría interesarte una parte que suele gustar mucho. ¿Quieres verla?
 
 Habla siempre según el producto que el cliente está viendo actualmente.
 `,
-    },
+},
     {
       role: "user",
       content: `
@@ -87,11 +119,18 @@ El objetivo es:
 
 Haz un mensaje corto, humano y conversacional
 como un vendedor real de WhatsApp.
-  ],
+`,
+},
+],
 });
 
 const followupMessage =
   completion.choices[0].message.content;
+    
+    console.log(
+  "FOLLOWUP GENERADO:",
+  followupMessage
+);
     await fetch(
     `https://graph.facebook.com/v19.0/${process.env.PHONE_NUMBER_ID}/messages`,
     {
