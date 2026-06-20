@@ -742,8 +742,8 @@ await supabase
 }
 
 else if (
-  !node?.media?.length &&
-  !Array.isArray(node?.media)
+  !node?.media ||
+  node?.media.length === 0
 ) {
 
   const response = await fetch(
