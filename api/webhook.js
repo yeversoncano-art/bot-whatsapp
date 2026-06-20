@@ -313,8 +313,8 @@ else {
   }
 
   else {
-  selectedNode = "ia_libre";
-}
+    selectedNode = "bienvenida";
+  }
 
 }
 }
